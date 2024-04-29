@@ -4,6 +4,7 @@
   # Plover is currently tested with python 3.10 and do not seems to work with more recent versions
   # https://github.com/openstenoproject/plover/commits/a8ac3631bee1971eec2b41b74fbebdad4750291a
   python310Packages,
+  qt5,
   mkDerivationWith,
 }:
 
@@ -19,7 +20,7 @@
         mock
         pyqt5
         pyserial
-        pytest
+        pytestCheckHook
         setuptools
         wcwidth
         xlib
@@ -39,9 +40,9 @@
           sha256 = "sha256-A75OMzmEn0VmDAvmQCp6/7uptxzwWJTwsih3kWlYioA=";
         };
 
-        nativeCheckInputs = [ pytest ];
         propagatedBuildInputs = [ setuptools ];
 
+        nativeCheckInputs = [ pytestCheckHook ];
         pythonImportsCheck = [ "plover_stroke" ];
 
         meta = {
@@ -66,12 +67,10 @@
           sha256 = "sha256-zwD2sRYTY1Kmm/Ag2hps9VRdUyQoi4zKtDPR+F52t9A=";
         };
 
-        nativeCheckInputs = [ pytest ];
         propagatedBuildInputs = [ setuptools ];
 
-        pythonImportsCheck = [
-          "rtf_tokenize"
-        ];
+        nativeCheckInputs = [ pytestCheckHook ];
+        pythonImportsCheck = [ "rtf_tokenize" ];
 
         meta = {
           description = "Simple RTF tokenizer";
@@ -84,7 +83,7 @@
     in
     mkDerivationWith buildPythonPackage rec {
       pname = "plover";
-      version = "4.0.0.dev12";
+      version = "4.0.0rc2";
 
       pyproject = true;
 
@@ -92,13 +91,9 @@
         owner = "openstenoproject";
         repo = "plover";
         rev = "refs/tags/v${version}";
-        sha256 = "sha256-qK6Z97r5dr5Hr0JkY5WaqYE67FEiXi12Pu7Y+wS0Zm4=";
+        sha256 = "sha256-rmMec/BbvOJ92u8Tmp3Kv2YezzJxB/L8UrDntTDSKj4=";
       };
 
-      nativeCheckInputs = [
-        pytest
-        mock
-      ];
       propagatedBuildInputs = [
         babel
         pyqt5
@@ -109,6 +104,13 @@
         setuptools
         plover_stroke
         rtf_tokenize
+      ];
+
+      buildInputs = [ qt5.qtwayland ];
+
+      nativeCheckInputs = [
+        pytestCheckHook
+        mock
       ];
 
       dontWrapQtApps = true;
