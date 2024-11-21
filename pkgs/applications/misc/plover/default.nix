@@ -9,8 +9,6 @@
 }:
 
 {
-  stable = throw "plover.stable was removed because it used Python 2. Use plover.dev instead."; # added 2022-06-05
-
   dev =
     let
       inherit (python310Packages)
