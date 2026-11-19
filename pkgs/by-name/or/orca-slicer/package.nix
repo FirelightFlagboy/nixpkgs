@@ -56,6 +56,9 @@ let
       withEGL = true;
     }).overrideAttrs
       (old: {
+        patches = (old.patches or [ ]) ++ [
+          ./patches/wxwidgets-dialog-returncode.patch
+        ];
         buildInputs = old.buildInputs ++ [ libsecret ];
         configureFlags = old.configureFlags ++ [
           # Disable noisy debug dialogs
